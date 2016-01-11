@@ -1,0 +1,41 @@
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    intTest
+    generated.java.srcDirs=['src/main/generated']
+    main {
+        java { srcDir 'src/main/java' }
+        resources { srcDir 'src/main/resources' }
+    }
+    test {
+        java { srcDir 'src/test/java' }
+        resources { srcDir 'src/test/resources' }
+    }
+}
+configurations {
+    providedRuntime
+    jpametamodel
+}
+
+dependencies {
+    compile fileTree(dir: "libs", include: ["*.jar"])
+    jpametamodel("org.hibernate:hibernate-jpamodelgen:4.3.8.Final")
+}
+task generateMetaModel(type: JavaCompile, group: 'build', description: 'metamodel generate') {
+
+    source = sourceSets.main.java
+    classpath = configurations.compile + configurations.jpametamodel
+    options.compilerArgs = ["-proc:only"]
+    destinationDir = sourceSets.generated.java.srcDirs.iterator().next()
+
+    doFirst {
+        logger.warn("Prepare dictionary structures  " +sourceSets.generated.java.srcDirs)
+        //delete(sourceSets.generated.java.srcDirs)
+        //sourceSets.generated.java.srcDirs.mkdirs()
+    }
+}
+compileJava.dependsOn generateMetaModel
+compileJava.source sourceSets.generated.java, sourceSets.main.java
+

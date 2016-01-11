@@ -1,0 +1,115 @@
+<div class="wrapper-md" style="padding-top:0!important;" ng-controller="StudentController">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            成绩详情
+        </div>
+        <div class="row wrapper">
+            <div class="col-sm-9 m-b-xs">
+                <button class="btn btn-sm btn-default" ng-show="courseName != null">{{courseName}}</button>
+                <button class="btn btn-sm btn-default" ng-show="studentName != null">{{studentName}}</button>
+            </div>
+
+            <div class="col-sm-1">
+                <button type="button" ng-click="saveGrade()"class="btn btn-sm btn-info" >保存
+                </button>
+            </div>
+
+            <div class="col-sm-1">
+            </div>
+
+            <div class="col-sm-1">
+                <button type="button" onclick="javascript:history.back(-1);" class="btn btn-sm btn-success" >返回
+                </button>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped b-t b-light">
+                <thead>
+                <tr>
+                    <th>实验项目</th>
+                    <th>完成时间</th>
+                    <th>出勤情况</th>
+                    <th>成绩</th>
+                </tr>
+                </thead>
+                <tbody>
+                 <tr dir-paginate="book in books | itemsPerPage: pagination.pageSize"
+         total-items="pagination.totalItems" current-page="pagination.page">
+                    <td class="col-sm-3">{{book.batch.item.name}}</td>
+                    <td class="col-sm-3">{{book.attendTime}}</td>
+                    <td class="col-sm-3">{{book.attendance}}</td>
+                    <td class="col-sm-3"><input type="text" class="form-control" ng-model="book.grade"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <footer class="panel-footer">
+            <div class="row">
+                <div class="col-sm-4 hidden-xs">
+                </div>
+                <div class="col-sm-4 text-center">
+                </div>
+                <div class="col-sm-4 text-right text-center-xs">
+        <div class="text-center">
+            <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+        </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+    app.controller('StudentController', ['$scope', '$http','$stateParams', function ($scope, $http,$stateParams) {
+       $scope.getStuedntgradeDetail = function (){
+
+            var url = $scope.app.host + '/course/studentgradedetail';
+            var params = {};
+            params["studentId"] = $stateParams.studentId;
+            params["courseId"] = $stateParams.courseId;
+            params["teacherId"] = $stateParams.teacherId;
+           console.log(url + "?" + JSON.stringify(params));
+           $http.post(url, params)
+                   .success(function (response) {
+                       console.log(response);
+                       $scope.books = response.books;
+                       if ($scope.books.length > 0 ) {
+                        $scope.courseName = $scope.books[0].batch.item.course.name;
+                        $scope.studentName = $scope.books[0].user.jaccountChinesename;
+                       };
+                   }).error(function (response) {
+                       $scope.pop("error", "错误", response.error.message);
+                   });
+       };
+
+       $scope.getStuedntgradeDetail();
+
+        $scope.saveGrade = function (){
+            var url = $scope.app.host + '/batch/grades2';
+            var params = {};
+            var bookIds = [];
+            var grades = [];
+            for (var i = 0; i < $scope.books.length; i++) {
+                bookIds.push($scope.books[i].id);
+                grades.push($scope.books[i].grade);
+            };
+            params["bookIds"] = bookIds;
+            params["grades"] = grades;
+            console.log(url + "?" + JSON.stringify(params));
+            $http.post(url, params)
+                .success(function (response){
+                $scope.pop("success", "", "保存成绩成功");
+                                history.back(-1);
+
+                }).error(function (response){
+                    $scope.pop("error","错误",response.error.message);
+                });
+
+        };
+
+    }]);
+
+</script>

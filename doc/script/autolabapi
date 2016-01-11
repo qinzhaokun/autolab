@@ -1,0 +1,44 @@
+#!/bin/sh
+
+SERVICE_NAME=autolabapi
+PATH_TO_JAR=/var/www/autolab/api/build/libs/autolab-1.0.0.jar
+OPTS="-Xmx256m"
+PID_PATH_NAME=/tmp/autolabapi-pid
+case $1 in
+    start)
+        echo "Starting $SERVICE_NAME from $PATH_TO_JAR..."
+        if [ ! -f $PID_PATH_NAME ]; then
+            nohup java -jar $OPTS $PATH_TO_JAR /tmp 2>> /dev/null >> /dev/null &
+                        echo $! > $PID_PATH_NAME
+            echo "$SERVICE_NAME started ..."
+        else
+            echo "$SERVICE_NAME is already running ..."
+        fi
+    ;;
+    stop)
+        if [ -f $PID_PATH_NAME ]; then
+            PID=$(cat $PID_PATH_NAME);
+            echo "$SERVICE_NAME stoping at $PATH_TO_JAR..."
+            kill $PID;
+            echo "$SERVICE_NAME stopped at $PATH_TO_JAR..."
+            rm $PID_PATH_NAME
+        else
+            echo "$SERVICE_NAME is not running at $PATH_TO_JAR..."
+        fi
+    ;;
+    restart)
+        if [ -f $PID_PATH_NAME ]; then
+            PID=$(cat $PID_PATH_NAME);
+            echo "$SERVICE_NAME stopping at $PATH_TO_JAR...";
+            kill $PID;
+            echo "$SERVICE_NAME stopped at $PATH_TO_JAR...";
+            rm $PID_PATH_NAME
+            echo "$SERVICE_NAME starting at $PATH_TO_JAR..."
+            nohup java -jar $PATH_TO_JAR /tmp 2>> /dev/null >> /dev/null &
+                        echo $! > $PID_PATH_NAME
+            echo "$SERVICE_NAME started ..."
+        else
+            echo "$SERVICE_NAME is not running ..."
+        fi
+    ;;
+esac

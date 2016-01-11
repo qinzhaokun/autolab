@@ -1,0 +1,19 @@
+<div class="wrapper-md" ng-controller="BlankController">
+
+</div>
+
+<script type="text/javascript">
+
+    app.controller('BlankController', ['$scope', '$state', '$rootScope', 'toaster',
+        function ($scope, $state, $rootScope, toaster) {
+            console.log($rootScope.oauth2.student);
+            if ($rootScope.oauth2.student == "no"){
+                console.log("go to teacher");
+                $state.go("app.experiment.index");
+            }else{
+                console.log("go to student");
+                $state.go("app.experiment_booking.index");
+            }
+        }]);
+
+</script>

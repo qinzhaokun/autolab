@@ -1,0 +1,50 @@
+# Created by .ignore support plugin (hsz.mobi)
+# java ignore
+
+.DS_Store
+*.class
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# gradle ignore
+.gradle
+build/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Avoid GeTui's jars
+!api/libs/*.jar
+
+# IDEA artifacts and output dirs
+*.iml
+*.ipr
+*.iws
+.idea
+out
+test-output
+atlassian-ide-plugin.xml
+.gradletasknamecache
+*.doc
+
+common/src/main/generated
+
+.projectile
+
+
+#ignore update shell.
+rapidUpdate.sh
+!doc/script/rapidUpdate.sh
+

@@ -1,0 +1,73 @@
+<div class="wrapper-md" style="padding-top:0!important;" ng-controller="ExperimentCreateController">
+    <div class="col-sm-6">
+        <div class="panel panel-default">
+            <div class="panel-heading font-bold">新建实验项目</div>
+            <div class="panel-body">
+                <form class="form-horizontal ng-pristine ng-valid ng-valid-date ng-valid-required ng-valid-date-disabled" method="get">
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">实验项目名称</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" ng-model="item.name">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">实验地点</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" ng-model="item.place">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">开放周次</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" ng-model="item.openTime" placeholder="数字和逗号表示，例如1,2,3">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">允许人数</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" ng-model="item.allowNumber">
+                        </div>
+                    </div>
+
+                    <div class="line line-dashed b-b line-lg pull-in"></div>
+                    <div class="form-group">
+                        <div class="col-sm-4 col-sm-offset-8">
+                            <button type="submit" class="btn btn-default" ui-sref="^.index">取消</button>
+                            <button type="submit" ng-click="createExperiment()" class="btn btn-primary">完成</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+    app.controller('ExperimentCreateController', ['$scope', '$http','$stateParams', '$state',function ($scope, $http, $stateParams,$state) {
+
+       $scope.createExperiment = function () {
+           var url = $scope.app.host + '/item/create';
+
+           var params = {"courseId": $stateParams.courseId,"name":$scope.item.name, "place":$scope.item.place, "openTime":$scope.item.openTime, "allowNumber": $scope.item.allowNumber};
+           console.log(url + "?" + JSON.stringify(params));
+           $http.post(url, params)
+                   .success(function (response) {
+                       console.log(response);
+                       $scope.pop("success","","创建实验项目成功");
+
+                       $state.go("app.experiment.index");
+
+                   }).error(function (response) {
+                       $scope.pop("error", "错误", response.error.message);
+                   });
+       };
+
+    }]);
+
+</script>

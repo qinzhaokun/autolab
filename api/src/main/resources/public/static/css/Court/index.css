@@ -1,0 +1,18 @@
+.filter-block {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid green;
+}
+.filter-block .filter-first {
+  border-right: 2px solid green;
+}
+.filter-block .filter-content {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.filter-block .filter-content .filter-a {
+  color: green;
+}
+.filter-block .filter-content .filter-a:hover {
+  color: greenyellow;
+}

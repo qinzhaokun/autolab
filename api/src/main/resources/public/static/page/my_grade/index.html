@@ -1,0 +1,83 @@
+<div class="wrapper-md" style="padding-top:0!important;" ng-controller="MybookingIndexController">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            我的成绩
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped b-t b-light">
+                <thead>
+                <tr>
+                    <th>实验项目</th>
+                    <th>实验地点</th>
+                    <th>完成时间</th>
+                    <th>成绩</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr dir-paginate="book in books | itemsPerPage: pagination.pageSize"
+         total-items="pagination.totalItems" current-page="pagination.page">
+                    <td>{{book.batch.item.name}}</td>
+                    <td>{{book.batch.item.place}}</td>
+                    <td>{{book.batch.startTime | time2simpleDateTime}} 到{{book.batch.endTime | time2simpleDateTime}}</td>
+                    <td>{{book.grade}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <footer class="panel-footer">
+            <div class="row">
+                <div class="col-sm-4 hidden-xs">
+                </div>
+                <div class="col-sm-4 text-center">
+                </div>
+                <div class="col-sm-4 text-right text-center-xs">
+        <div class="text-center">
+            <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+        </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+
+        app.controller('MybookingIndexController', ['$scope', '$http', function ($scope, $http) {
+    
+        $scope.pagination = {
+            page: 1,
+            pageSize: 2,
+            totalItems: 0
+        };
+
+        $scope.pageChanged = function (newPage) {
+            console.log(newPage);
+            $scope.pagination.page = newPage;
+            $scope.getBook();
+        };
+           $scope.getBook = function () {
+               var url = $scope.app.host + '/book/page';
+    
+               var params = {};
+            params["size"] = $scope.pagination.pageSize;
+            params["page"] = $scope.pagination.page-1;
+               console.log(url + "?" + JSON.stringify(params));
+               $http.post(url, params)
+                       .success(function (response) {
+                           console.log(response);
+                       $scope.books = response.pager.books;
+                        $scope.pagination.totalItems = response.pager.totalItems;
+
+    
+                       }).error(function (response) {
+                           $scope.pop("error", "错误", response.error.message);
+                       });
+           };
+           $scope.getBook();
+    
+        }]);
+
+</script>

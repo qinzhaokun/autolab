@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="http://code.jquery.com/jquery-1.4.1.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            alert(window.location.search);
+            $("button").click(function(){
+                $.ajax({
+                    type: "GET",
+                    url: $("#url").val(),
+                    beforeSend: function(request) {
+                        request.setRequestHeader("Authorization", $("#Authorization").val());
+                    },
+                    success: function(result) {
+                        alert(JSON.stringify(result));
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<p>url: <input id = "url" type="text" name="url" /></p>
+<p>Authorization: <input id = "Authorization" type="text" name="Authorization" /></p>
+<button>发送get</button>
+</body>
+</html>

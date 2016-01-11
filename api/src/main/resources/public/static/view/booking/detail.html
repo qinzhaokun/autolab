@@ -1,0 +1,115 @@
+<div class="wrapper-md" style="padding-top:0!important;" ng-controller="BookingDetailController">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            预约详情
+        </div>
+        <div class="row wrapper">
+            <div class="col-sm-11 m-b-xs">
+                <button class="btn btn-sm btn-default" ng-show="bookDetail != null">{{bookDetail.batch.item.name}}</button>
+                <button class="btn btn-sm btn-default" ng-show="bookDetail != null">第{{bookDetail.batch.week}}周</button>
+                <button class="btn btn-sm btn-default" ng-show="bookDetail != null">{{bookDetail.batch.startTime | time2simpleDateTime}} </button>
+                <button class="btn btn-sm btn-default" ng-show="bookDetail != null">{{bookDetail.batch.endTime | time2simpleDateTime}}</button>
+
+            </div>
+            <div class="col-sm-1">
+                <a onclick="javascript:history.back(-1);" class="btn btn-sm btn-success">返回</a>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped b-t b-light">
+                <thead>
+                <tr>
+                    <th>学生学号</th>
+                    <th>学生姓名</th>
+                    <th>院系</th>
+                    <th>是否出勤</th>
+                    <th>出勤时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                 <tr dir-paginate="book in books | itemsPerPage: pagination.pageSize"
+         total-items="pagination.totalItems" current-page="pagination.page">
+                    <td>{{book.user.jaccountId}}</td>
+                    <td>{{book.user.jaccountChinesename}}</td>
+                    <td>{{book.user.jaccountDept}}</td>
+                    <td>{{book.attendance}}</td>
+                    <td>{{book.attendTime}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <footer class="panel-footer">
+            <div class="row">
+                <div class="col-sm-4 hidden-xs">
+                </div>
+                <div class="col-sm-4 text-center">
+                </div>
+                <div class="col-sm-4 text-right text-center-xs">
+        <div class="text-center">
+            <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+        </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <div class="panel panel-default" nv-file-drop="" uploader="uploader" filters="queueLimit, customFilter">
+        <div class="panel-heading">
+            上传管理
+        </div>
+        <div class="row wrapper">
+        <div class="form-group">
+            <input type="file" nv-file-select="" uploader="uploader" multiple  />
+        </div>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="table table-striped b-t b-light">
+ <thead>
+              <tr>
+                  <th width="50%">文件名</th>
+                  <th ng-show="uploader.isHTML5">文件大小</th>
+                  <th ng-show="uploader.isHTML5">上传进度</th>
+                  <th>状态</th>
+                  <th>操作</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr ng-repeat="item in uploader.queue">
+                  <td><strong>{{ item.file.name }}</strong></td>
+                  <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                  <td ng-show="uploader.isHTML5">
+                      <div class="progress progress-sm m-b-none m-t-xs">
+                          <div class="progress-bar bg-info" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                      </div>
+                  </td>
+                  <td class="text-center">
+                      <span ng-show="item.isSuccess" class="text-success"><i class="glyphicon glyphicon-ok"></i></span>
+                      <span ng-show="item.isCancel" class="text-warning"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                      <span ng-show="item.isError" class="text-danger"><i class="glyphicon glyphicon-remove"></i></span>
+                  </td>
+                  <td nowrap>
+                      <button type="button" class="btn btn-default btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                          上传
+                      </button>
+                      <button type="button" class="btn btn-default btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                          取消
+                      </button>
+                      <button type="button" class="btn btn-default btn-xs" ng-click="item.remove()">
+                          移除
+                      </button>
+                  </td>
+              </tr>
+          </tbody>
+        </table>
+        </div>
+        <footer class="panel-footer">
+            <div class="row">
+                <div class="col-sm-4 hidden-xs">
+                </div>
+            </div>
+        </footer>
+    </div>
+
+</div>

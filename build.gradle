@@ -1,0 +1,88 @@
+buildscript {
+    ext {
+        springBootVersion = '1.3.0.M5'
+    }
+    repositories {
+        mavenCentral()
+        maven { url "http://repo.spring.io/milestone" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+//        classpath("org.springframework:springloaded:${springBootVersion}")
+//        classpath("io.spring.gradle:dependency-management-plugin:0.4.1.RELEASE")
+    }
+}
+subprojects {
+
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'spring-boot'
+
+    jar {
+        baseName = 'autolab'
+        version = '1.0.0'
+    }
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    repositories {
+        mavenCentral()
+        maven { url "http://repo.spring.io/milestone" }
+    }
+
+    dependencies {
+        compile("org.springframework.boot:spring-boot-devtools")
+
+        //尝试用sevlet
+        //runtime("javax.servlet:javax.servlet-api:3.0.1")
+
+        //runtime("org.apache.tomcat.embed:tomcat-embed-jasper")
+
+
+        //gson
+        compile("com.google.code.gson:gson:2.3.1")
+
+        //<!--用于解析XML的好帮手-->
+        compile("org.apache.commons:commons-digester3:3.2")
+
+        //http请求的一个包 https://github.com/AsyncHttpClient/async-http-client
+        compile("com.ning:async-http-client:1.9.31")
+
+        //Spring模板渲染
+        compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+        //为了解决thymeleaf对于html5的检查太严格。https://github.com/spring-projects/spring-boot/issues/1270
+        compile("net.sourceforge.nekohtml:nekohtml:1.9.21")
+
+
+        //@Data @Setter @Getter的好帮手
+        compile("org.projectlombok:lombok:1.16.6")
+
+
+        compile("org.springframework.boot:spring-boot-starter-data-jpa")
+        //我们需要使用更新版本的jpa
+        //compile("org.springframework.data:spring-data-jpa:1.9.0.RELEASE")
+
+        compile("org.springframework.boot:spring-boot-starter-data-mongodb")
+        compile("org.springframework.boot:spring-boot-starter-security")
+        compile("org.springframework.boot:spring-boot-starter-web")
+        //这一条好像并没有什么卵用啊。。
+        //compile("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.4.5")
+        runtime("mysql:mysql-connector-java")
+
+        compile("org.springframework.security.oauth:spring-security-oauth2:2.0.6.RELEASE")
+        testCompile("org.springframework.boot:spring-boot-starter-test")
+
+        compile('org.apache.poi:poi:3.13')
+        compile("commons-io:commons-io:2.4")
+        compile("commons-fileupload:commons-fileupload:1.3.1")
+    }
+
+    springBoot {
+        executable = true
+        mainClass = "com.autolab.Application"
+    }
+
+    task wrapper(type: Wrapper) {
+        gradleVersion = '2.4'
+    }
+}

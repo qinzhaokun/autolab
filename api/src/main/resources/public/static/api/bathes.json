@@ -1,0 +1,23 @@
+{
+  status: "OK",
+  pager:{
+    times:[
+      {
+      batchId:1
+      startTime: "2015-12-5 18:00",
+      endTime: "2015-12-5 20:00",
+      book_num: 20,
+      allow_number: 50,
+      status:"OK",
+      },
+      {
+      batchId:2
+      startTime: "2015-12-5 18:00",
+      endTime: "2015-12-5 20:00",
+      book_num: 20,
+      allow_number: 50,
+      status:"OK",
+      }
+    ]
+  }
+}

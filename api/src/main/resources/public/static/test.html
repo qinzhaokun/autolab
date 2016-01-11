@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="http://code.jquery.com/jquery-1.4.1.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("button").click(function(){
+                addNewManufacturer();
+            });
+        });
+
+        function addNewManufacturer() {
+
+            var times = [{ "startTime": "2015-12-12 10:10:10","endTime": "2015-12-12 10:10:10"  }, { "startTime": "2015-12-12 10:10:10","endTime": "2015-12-12 10:10:10"}];
+            var myList = new Array();
+            myList.push({startTime:"2015-12-12 10:10:10"})
+            myList.push({startTime:"2015-12-12 10:10:10"})
+            var sendInfo = {
+                name: "algorithm",
+                place: "X47",
+                allowNumber : "34",
+                courseId: "3",
+                times:myList
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/item/create2",
+                dataType: "json",
+                beforeSend: function(request) {
+                    request.setRequestHeader("Authorization",
+                            "bearer 70de1a95-a2ab-4078-955e-54ac860992b7"
+                    );
+                },
+                success: function (msg) {
+                    if (msg) {
+                        alert("OK");
+                    } else {
+                        alert("Cannot add to list !");
+                    }
+                },
+
+                data: sendInfo
+            });
+        }
+    </script>
+</head>
+<body>
+<p>url: <input id = "url" type="text" name="url" /></p>
+<p>Authorization: <input id = "Authorization" type="text" name="Authorization" /></p>
+<button>发送get</button>
+</body>
+</html>

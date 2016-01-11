@@ -1,0 +1,142 @@
+<div class="wrapper-md" style="padding-top:0!important;" ng-controller="MybookingIndexController">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            成绩详情
+        </div>
+        <div class="row wrapper">
+            <div class="col-sm-9 m-b-xs">
+                <button class="btn btn-sm btn-default" ng-show="bookDetail != null">{{bookDetail.batch.item.name}}</button>
+                <button class="btn btn-sm btn-default" ng-show="bookDetail != null">第{{bookDetail.batch.week}}周</button>
+                <button class="btn btn-sm btn-default" ng-show="bookDetail != null">{{bookDetail.batch.startTime | time2simpleDateTime}} </button>
+                <button class="btn btn-sm btn-default" ng-show="bookDetail != null">{{bookDetail.batch.endTime | time2simpleDateTime}}</button>
+
+            </div>
+            <div class="col-sm-1">
+                <button type="button" ng-click="saveGrade()" ng-show="bookDetail.batch.publish == 'NO'"class="btn btn-sm btn-info" >保存
+                </button>
+            </div>
+
+            <div class="col-sm-1">
+                <button type="button" ng-click="publishGrade()" ng-show="bookDetail.batch.publish == 'NO'" class="btn btn-sm btn-danger">发布
+                </button>
+            </div>
+
+            <div class="col-sm-1">
+                <button type="button" onclick="javascript:history.back(-1);" class="btn btn-sm btn-success" >返回
+                </button>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped b-t b-light">
+                <thead>
+                <tr>
+                    <th>学生学号</th>
+                    <th>学生姓名</th>
+                    <th>院系</th>
+                    <th>成绩</th>
+                </tr>
+                </thead>
+                <tbody>
+                 <tr dir-paginate="book in books | itemsPerPage: pagination.pageSize"
+         total-items="pagination.totalItems" current-page="pagination.page">
+                    <td class="col-sm-3">{{book.user.jaccountId}}</td>
+                    <td class="col-sm-3">{{book.user.jaccountChinesename}}</td>
+                    <td class="col-sm-3">{{book.user.jaccountDept}}</td>
+                    <td class="col-sm-3"><input type="text" class="form-control" ng-model="book.grade">
+</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <footer class="panel-footer">
+            <div class="row">
+                <div class="col-sm-4 hidden-xs">
+                </div>
+                <div class="col-sm-4 text-center">
+                </div>
+                <div class="col-sm-4 text-right text-center-xs">
+        <div class="text-center">
+            <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+        </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+    app.controller('MybookingIndexController', ['$scope', '$http','$stateParams', function ($scope, $http,$stateParams) {
+
+        $scope.pagination = {
+            page: 1,
+            pageSize: 3,
+            totalItems: 0
+        };
+
+        $scope.pageChanged = function (newPage) {
+            console.log(newPage);
+            $scope.pagination.page = newPage;
+            $scope.getDetail();
+        };
+
+        $scope.getDetail = function () {
+            var url = $scope.app.host + '/batch/books/'+$stateParams.batchId;
+            var params = {};
+            params["size"] = $scope.pagination.pageSize;
+            params["page"] = $scope.pagination.page-1;
+
+           console.log(url + "?" + JSON.stringify(params));
+            $http.post(url, params)
+                .success(function (response){
+                    $scope.books = response.pager.books;
+                    if ($scope.books.length !=0) {
+                        $scope.bookDetail = $scope.books[0];
+                    };
+                    $scope.pagination.totalItems = response.pager.totalItems;
+                }).error(function (response){
+                    $scope.pop("error","错误",response.error.message);
+                });
+        };
+        $scope.getDetail();
+
+        $scope.saveGrade = function (){
+            var url = $scope.app.host + '/batch/grades';
+            var params = {};
+            params["batchId"] = $stateParams.batchId;
+            var studentIds = [];
+            var grades = [];
+            for (var i = 0; i < $scope.books.length; i++) {
+                studentIds.push($scope.books[i].user.id);
+                grades.push($scope.books[i].grade);
+            };
+            params["studentIds"] = studentIds;
+            params["grades"] = grades;
+            console.log(url + "?" + JSON.stringify(params));
+            $http.post(url, params)
+                .success(function (response){
+                $scope.pop("success", "", "保存成绩成功，全部成绩填写后可以点击发布");
+                }).error(function (response){
+                    $scope.pop("error","错误",response.error.message);
+                });
+
+        };
+
+        $scope.publishGrade = function (){
+            var url = $scope.app.host + '/batch/publish/'+ $stateParams.batchId;
+            var params = {};
+            console.log(url + "?" + JSON.stringify(params));
+            $http.post(url, params)
+                .success(function (response){
+                $scope.pop("success", "", "发布成绩成功");
+                history.back(-1);
+                }).error(function (response){
+                    $scope.pop("error","错误",response.error.message);
+                });
+
+        };
+    }]);
+
+</script>

@@ -1,0 +1,138 @@
+<div class="wrapper-md" style="padding-top:0!important;" ng-controller="GradeIndexController">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            实验列表
+        </div>
+        <div class="row wrapper">
+            <div class="col-sm-6 m-b-xs">
+                <label class="inline">选择课程</label>
+                <div class="dropdown filter-content inline" dropdown="">
+                    <button class="btn btn-default dropdown-toggle filter-a" type="button" dropdown-toggle=""
+                       aria-haspopup="true"
+                       aria-expanded="false">{{filterCourse.name}}<span
+                            class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li ng-repeat="course in courses">
+                            <a href="javascript:void(0)" ng-click="changeCourse(course)">
+                                {{course.name}}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-4">
+            </div>
+            <div class="col-sm-2">
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped b-t b-light">
+                <thead>
+                <tr>
+                    <th>实验项目</th>
+                    <th>实验地点</th>
+                    <th>开放周次</th>
+                    <th style="width:30px;"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr dir-paginate="item in items | itemsPerPage: pagination.pageSize"
+         total-items="pagination.totalItems" current-page="pagination.page">
+                    <td>{{item.name}}</td>
+                    <td>{{item.place}}</td>
+                    <td>{{item.openTime}}</td>
+                    <td>
+                        <button class="btn btn-default  btn-success btn-xs" ui-sref="app.grade.booking({itemId: '{{item.id}}'})">成绩管理</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <footer class="panel-footer">
+            <div class="row">
+                <div class="col-sm-4 hidden-xs">
+                </div>
+                <div class="col-sm-4 text-center">
+                    <small class="text-muted inline m-t-sm m-b-sm"></small>
+                </div>
+                <div class="col-sm-4 text-right text-center-xs">
+                                        <div class="text-center">
+            <dir-pagination-controls on-page-change="pageChanged(newPageNumber)"></dir-pagination-controls>
+        </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+
+    app.controller('GradeIndexController', ['$scope', '$http', function ($scope, $http) {
+                $scope.pagination = {
+            page: 1,
+            pageSize: 5,
+            totalItems: 0
+        };
+
+        $scope.pageChanged = function (newPage) {
+            console.log(newPage);
+            $scope.pagination.page = newPage;
+            $scope.getItems();
+        };
+        $scope.filterCourses = [];
+
+        $scope.getCourses = function () {
+            var url = $scope.app.host + '/course/page';
+
+            var params = {};
+            console.log(url + "?" + JSON.stringify(params));
+            $http.post(url, params)
+                    .success(function (response) {
+                        console.log(response);
+                        $scope.courses = response.pager.courses;
+                        if ($scope.courses.length !=0) {
+                            $scope.filterCourse = $scope.courses[0];
+                            $scope.getItems();
+                            console.log("0");
+
+                        };
+
+                    }).error(function (response) {
+                        toaster.pop("error", "错误", response.error.message);
+                    });
+        };
+        $scope.getCourses();
+
+        $scope.changeCourse = function (course) {
+            console.log("change");
+            $scope.filterCourse = course;
+            $scope.getItems();
+        };
+
+       $scope.getItems = function () {
+           var url = $scope.app.host + '/item/page';
+
+            var params = {};
+
+            params["courseId"] = $scope.filterCourse.id;
+            params["size"] = $scope.pagination.pageSize;
+            params["page"] = $scope.pagination.page-1;
+
+           console.log(url + "?" + JSON.stringify(params));
+           $http.post(url, params)
+                   .success(function (response) {
+                       console.log(response);
+                       $scope.items = response.pager.items;
+                        $scope.pagination.totalItems = response.pager.totalItems;
+                   }).error(function (response) {
+                       $scope.pop("error", "错误", response.error.message);
+                   });
+       };
+
+    }]);
+
+</script>

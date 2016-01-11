@@ -1,0 +1,96 @@
+<div class="wrapper-md" style="padding-top:0!important;" ng-controller="ProfileIndexController">
+
+        <div class="wrapper-lg">
+            <div class="hbox h-auto m-b-lg">
+                <div class="col text-center w-sm">
+                    <div class="thumb-lg avatar inline">
+                        <img ng-src="{{item.avatar}}" ng-show="item.avatar">
+                    </div>
+                </div>
+                <div class="col v-middle h1 font-thin">
+                    <div ng-hide="item.editing">{{item.first}} {{item.last}}</div>
+                    <div ng-show="item.editing">
+                        <input type="text" placeholder="First" class="form-control w-auto input-lg m-b-n-xxs font-bold" ng-model="item.first" >
+                        <input type="text" placeholder="Last" class="form-control w-auto input-lg font-bold" ng-model="item.last" >
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <div class="form-horizontal">
+        <div class="form-group m-b-sm" ng-hide="!item.mobile && !item.editing">
+            <label class="col-sm-3 control-label">Mobile</label>
+            <div class="col-sm-9">
+                <p class="form-control-static" ng-hide="item.editing">{{item.mobile}}</p>
+                <input type="text" class="form-control" ng-show="item.editing" ng-model="item.mobile" >
+            </div>
+        </div>
+        <div class="form-group m-b-sm" ng-hide="!item.home && !item.editing">
+            <label class="col-sm-3 control-label">Home</label>
+            <div class="col-sm-9">
+                <p class="form-control-static" ng-hide="item.editing">{{item.home}}</p>
+                <input type="text" class="form-control" ng-show="item.editing" ng-model="item.home" >
+            </div>
+        </div>
+        <div class="form-group m-b-sm" ng-hide="!item.work && !item.editing">
+            <label class="col-sm-3 control-label">Work</label>
+            <div class="col-sm-9">
+                <p class="form-control-static" ng-hide="item.editing">{{item.work}}</p>
+                <input type="text" class="form-control" ng-show="item.editing" ng-model="item.work" >
+            </div>
+        </div>
+        <div class="form-group m-b-sm" ng-hide="!item.company && !item.editing">
+            <label class="col-sm-3 control-label">Company</label>
+            <div class="col-sm-9">
+                <p class="form-control-static" ng-hide="item.editing">{{item.company}}</p>
+                <input type="text" class="form-control" ng-show="item.editing" ng-model="item.company" >
+            </div>
+        </div>
+        <div class="form-group m-b-sm" ng-hide="!item.note && !item.editing">
+            <label class="col-sm-3 control-label">Note</label>
+            <div class="col-sm-9">
+                <p class="form-control-static" ng-hide="item.editing">{{item.note}}</p>
+                <textarea class="form-control" ng-show="item.editing" ng-model="item.note" rows="5"></textarea>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+    <script type="text/javascript">
+
+
+        app.controller('ProfileIndexController', ['$scope', '$http', function ($scope, $http) {
+            //        $scope.app.title="自动化系实验预约系统";
+            //
+            //        console.log("Enter into DashboardController");
+            //
+            //        $scope.refresh = function () {
+            //            var url = $scope.app.host + '/city/detail/' + $scope.app.city.id;
+            //
+            //            //,$scope.app.httpConfig
+            //            var params = {};
+            //            console.log(url + "?" + JSON.stringify(params));
+            //            $http.post(url, params)
+            //                    .success(function (response) {
+            //                        console.log(response);
+            //                        $scope.city = response.city;
+            //
+            //                        $scope.filterDistricts = [];
+            //                        $scope.filterDistricts.push($scope.allDistrict);
+            //                        for (var key in $scope.city.districts) {
+            //                            var district = $scope.city.districts[key];
+            //                            $scope.filterDistricts.push(district);
+            //                        }
+            //
+            //
+            //                    }).error(function (response) {
+            //                        $scope.pop("error", "错误", response.error.message);
+            //                    });
+            //        };
+            //        $scope.refresh();
+            //
+            //
+        }]);
+
+    </script>

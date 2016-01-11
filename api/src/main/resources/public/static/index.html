@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" data-ng-app="app" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>上海交通大学自动化系实验预约系统</title>
+    <meta name="description" content="autolab"/>
+    <meta name="keywords" content="autolab"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+    <link rel="shortcut icon" type="image/ico" href="/static/images/favicon.ico"></link>
+    <link rel="stylesheet" href="/static/fork/angulr-2.0.1/bower_components/bootstrap/dist/css/bootstrap.css"
+          type="text/css"></link>
+    <link rel="stylesheet" href="/static/fork/angulr-2.0.1/bower_components/animate.css/animate.css"
+          type="text/css"></link>
+    <link rel="stylesheet" href="/static/fork/angulr-2.0.1/bower_components/font-awesome/css/font-awesome.min.css"
+          type="text/css"></link>
+    <link rel="stylesheet" href="/static/fork/angulr-2.0.1/bower_components/simple-line-icons/css/simple-line-icons.css"
+          type="text/css"></link>
+    <link rel="stylesheet" href="/static/fork/angulr-2.0.1/src/css/font.css" type="text/css"></link>
+    <link rel="stylesheet" href="/static/fork/angulr-2.0.1/src/css/app.css" type="text/css"></link>
+
+    <!--toaster的样式-->
+    <link rel="stylesheet" href="/static/fork/angulr-2.0.1/bower_components/angularjs-toaster/toaster.css"
+          type="text/css"></link>
+
+    <!--添加自定义css样式-->
+    <link rel="stylesheet" href="/static/css/base.css" type="text/css"></link>
+
+</head>
+<body ng-controller="AppCtrl">
+
+
+<div class="hide">
+    <p id="oauth2_access_token" th:text="${oauth2.accessToken}"/>
+    <p id="oauth2_token_type" th:text="${oauth2.tokenType}"/>
+    <p id="oauth2_refresh_token" th:text="${oauth2.refreshToken}"/>
+    <p id="oauth2_expires_in" th:text="${oauth2.expiresIn}"/>
+    <p id="oauth2_scope" th:text="${oauth2.scope}"/>
+    <p id="oauth2_id" th:text="${user_id}"/>
+    <p id="oauth2_uid" th:text="${user_uid}"/>
+    <p id="oauth2_chinesename" th:text="${user_chinesename}"/>
+    <p id="oauth2_student" th:text="${user_student}"/>
+    <p id="oauth2_dept" th:text="${user_dept}"/>
+
+</div>
+
+<div class="app" id="app"
+
+     ng-class="{'app-header-fixed':app.settings.headerFixed, 'app-aside-fixed':app.settings.asideFixed, 'app-aside-folded':app.settings.asideFolded, 'app-aside-dock':app.settings.asideDock, 'container':app.settings.container}"
+     ui-view>
+
+</div>
+
+
+<!-- jQuery -->
+<script src="/static/fork/angulr-2.0.1/bower_components/jquery/dist/jquery.min.js"></script>
+
+<!-- Angular -->
+<script src="/static/fork/angulr-2.0.1/bower_components/angular/angular.min.js"></script>
+<script src="/static/fork/angulr-2.0.1/bower_components/angular-animate/angular-animate.min.js"></script>
+<script src="/static/fork/angulr-2.0.1/bower_components/angular-cookies/angular-cookies.min.js"></script>
+<script src="/static/fork/angulr-2.0.1/bower_components/angular-resource/angular-resource.min.js"></script>
+<script src="/static/fork/angulr-2.0.1/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+<script src="/static/fork/angulr-2.0.1/bower_components/angular-touch/angular-touch.min.js"></script>
+<script src="/static/fork/angulr-2.0.1/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="/static/fork/angulr-2.0.1/bower_components/ngstorage/ngStorage.min.js"></script>
+<script src="/static/fork/angulr-2.0.1/bower_components/angular-ui-utils/ui-utils.min.js"></script>
+
+
+<!--分页-->
+<script src="/static/fork/angulr-2.0.1/bower_components/angular-utils-pagination/dirPagination.js"></script>
+
+<!--很多页面都需要的toaster-->
+<script src="/static/fork/angulr-2.0.1/bower_components/angularjs-toaster/toaster.js"></script>
+
+<script src="/static/fork/angulr-2.0.1/bower_components/angular-xeditable/dist/js/xeditable.js"></script>
+
+
+<!-- bootstrap -->
+<script src="/static/fork/angulr-2.0.1/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+<!-- lazyload -->
+<script src="/static/fork/angulr-2.0.1/bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>
+<!-- translate -->
+<script src="/static/fork/angulr-2.0.1/bower_components/angular-translate/angular-translate.min.js"></script>
+<script src="/static/fork/angulr-2.0.1/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
+<script src="/static/fork/angulr-2.0.1/bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.min.js"></script>
+<script src="/static/fork/angulr-2.0.1/bower_components/angular-translate-storage-local/angular-translate-storage-local.min.js"></script>
+
+<!--时间选择器-->
+<script src="/static/fork/datetime-picker-1.1.0/datetime-picker.js"></script>
+
+
+<!-- App -->
+<script src="/static/js/app.js"></script>
+<script src="/static/js/config.js"></script>
+<script src="/static/js/config.lazyload.js"></script>
+<script src="/static/js/config.router.js"></script>
+<script src="/static/js/main.js"></script>
+
+<!--加载自定义Service-->
+<script src="/static/js/services/ui-load.js"></script>
+<script src="/static/js/services/TimeService.js"></script>
+
+<!--加载全局变量-->
+<script src="/static/js/services/DataService.js"></script>
+
+
+<!--加载自定义的过滤器-->
+<script src="/static/js/filters/fromNow.js"></script>
+<script src="/static/js/filters/utilFilter.js"></script>
+
+
+
+<script src="/static/js/directives/setnganimate.js"></script>
+<script src="/static/js/directives/ui-butterbar.js"></script>
+<script src="/static/js/directives/ui-focus.js"></script>
+<script src="/static/js/directives/ui-fullscreen.js"></script>
+<script src="/static/js/directives/ui-jq.js"></script>
+<script src="/static/js/directives/ui-module.js"></script>
+<script src="/static/js/directives/ui-nav.js"></script>
+<script src="/static/js/directives/ui-scroll.js"></script>
+<script src="/static/js/directives/ui-shift.js"></script>
+<script src="/static/js/directives/ui-toggleclass.js"></script>
+<script src="/static/js/controllers/bootstrap.js"></script>
+<!-- Lazy loading -->
+
+</body>
+</html>

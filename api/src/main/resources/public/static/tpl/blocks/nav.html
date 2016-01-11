@@ -1,0 +1,50 @@
+<!-- list -->
+<ul class="nav">
+    <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+        <span>管理</span>
+    </li>
+    <li ui-sref-active="active" ng-show="oauth2.student == 'yes'">
+        <a ui-sref="app.experiment_booking.index">
+            <i class="fa fa-calendar icon text-primary-dker"></i>
+            <span class="font-bold">实验预约</span>
+        </a>
+    </li>
+
+    <li ui-sref-active="active" ng-show="oauth2.student == 'yes'">
+        <a ui-sref="app.my_booking.index">
+            <i class="fa fa-user icon text-success"></i>
+            <span class="font-bold">我的预约</span>
+        </a>
+    </li>
+
+    <li ui-sref-active="active" ng-show="oauth2.student == 'yes'">
+        <a ui-sref="app.my_grade.index">
+            <i class="glyphicon glyphicon-dashboard icon text-info-lter"></i>
+            <span class="font-bold">我的成绩</span>
+        </a>
+    </li>
+
+    <li ui-sref-active="active" ng-show="oauth2.student == 'no'">
+        <a ui-sref="app.experiment.index">
+            <i class="glyphicon glyphicon-dashboard icon text-primary-dker"></i>
+            <span class="font-bold">实验管理</span>
+        </a>
+    </li>
+
+    <li ui-sref-active="active" ng-show="oauth2.student == 'no'">
+        <a ui-sref="app.booking.index">
+            <i class="glyphicon glyphicon-dashboard icon text-success"></i>
+            <span class="font-bold">预约查询</span>
+        </a>
+    </li>
+
+    <li ui-sref-active="active" ng-show="oauth2.student == 'no'">
+        <a ui-sref="app.grade.index">
+            <i class="glyphicon glyphicon-dashboard icon text-info-lter"></i>
+            <span class="font-bold">成绩管理</span>
+        </a>
+    </li>
+
+
+</ul>
+<!-- / list -->

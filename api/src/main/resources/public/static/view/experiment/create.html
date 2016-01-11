@@ -1,0 +1,96 @@
+<div class="wrapper-md" style="padding-top:0!important;" >
+    <div class="col-sm-8">
+        <div class="panel panel-default ">
+            <div class="panel-heading font-bold">新建实验项目</div>
+            <div class="panel-body ">
+
+                <form class="form-horizontal ng-pristine ng-valid ng-valid-date ng-valid-required ng-valid-date-disabled" method="get">
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">实验项目名称</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" ng-model="item.name">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">实验地点</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" ng-model="item.place">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">开发周次</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" ng-model="item.openTime">
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">允许人数</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" ng-model="item.allowNumber">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">开放时间</label>
+                        <div class="col-sm-8">
+                            <button class="btn btn-success m-b-lg col-sm-4" ng-click="addtime()">增加时间段</button>
+                        </div>
+                    </div>
+                </form>
+
+                <table class="table table-bordered table-hover table-condensed bg-white-only">
+                    <tr style="font-weight: bold">
+                        <td style="width:35%">startTime</td>
+                        <td style="width:35%">endTime</td>
+                        <td style="width:30%">Edit</td>
+                    </tr>
+                    <tr ng-repeat="time in times">
+                        <td class="v-middle">
+        <span editable-text="time.startTime" e-name="startTime" e-form="rowform" e-placeholder="2010-01-01 18:00:00">
+          {{ time.startTime || 'empty' }}
+        </span>
+                        </td>
+                        <td class="v-middle">
+        <span editable-text="time.endTime" e-name="endTime" e-form="rowform" e-placeholder="2010-01-01 18:00:00">
+          {{ time.endTime || 'empty'}}
+        </span>
+                        </td>
+                        <td style="white-space: nowrap">
+                            <form editable-form name="rowform" onaftersave="savetime($data)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == time">
+                                <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-info">
+                                    save
+                                </button>
+                                <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+                                    cancel
+                                </button>
+                            </form>
+                            <div class="buttons" ng-show="!rowform.$visible">
+                                <button class="btn btn-sm btn-info" ng-click="rowform.$show()">edit</button>
+                                <button class="btn btn-sm btn-danger" ng-click="removetime($index)">del</button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <form class="form-horizontal ng-pristine ng-valid ng-valid-date ng-valid-required ng-valid-date-disabled" method="get">
+
+                    <div class="line line-dashed b-b line-lg pull-in"></div>
+                    <div class="form-group">
+                        <div class="col-sm-4 col-sm-offset-8">
+                            <button type="submit" class="btn btn-default" ui-sref="^.index">取消</button>
+                            <button type="submit" ng-click="createExperiment()" class="btn btn-primary">完成</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+

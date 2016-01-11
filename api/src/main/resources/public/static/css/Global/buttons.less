@@ -1,0 +1,96 @@
+@enable-white-buttons:					true;//White Buttons
+
+
+//使用angulr的按钮颜色。
+@brand-primary:         #7266ba;
+@brand-info:            #23b7e5;
+@brand-success:         #27c24c;
+@brand-warning:         #fad733;
+@brand-danger:          #f05050;
+@brand-light:           #edf1f2;
+@brand-dark:            #3a3f51;
+@brand-black:           #1c2b36;
+
+
+@btn-primary: @brand-primary;
+@btn-info: @brand-info;
+@btn-success: @brand-success;
+@btn-warning: @brand-warning;
+@btn-danger: @brand-danger;
+
+@btn-default: #ABBAC3;
+@btn-default-hover: #8B9AA3;
+
+
+.enable_white_buttons() when(@enable-white-buttons = true) {
+  .btn.btn-white {
+    //border-width: 1px;
+    text-shadow: none !important;
+    background-color: #FFF !important;
+
+    &.no-hover:hover , &.no-hover:active {
+      background-color: #FFF !important;
+    }
+
+    &:focus , &.active {
+      box-shadow: inset 1px 1px 2px 0 rgba(0,0,0,0.1) !important;
+
+      &.btn-bold {
+        box-shadow: inset 1px 1px 3px 0 rgba(0,0,0,0.15) !important;
+      }
+    }
+    &.active:after {
+      display: none;
+    }
+  }
+  .btn-white(@txt-color, @border-color, @bg-hover-color) {
+    border-color: @border-color;
+    color: @txt-color !important;
+
+    &:hover, &:focus , &.active, &:active, .open &.dropdown-toggle {
+      background-color: @bg-hover-color !important;
+      border-color: @border-color;
+    }
+    &:hover {
+      color: saturate(darken(@txt-color , 5%) , 5%) !important;
+    }
+    &.no-border:hover , &.no-border:active {
+      border-color: @border-color;
+    }
+
+    &.disabled, &[disabled], fieldset[disabled] & {
+      &,
+      &:hover,
+      &:focus,
+      &:active,
+      &.active {
+        //background-color: #FFF !important;
+        border-color: @border-color;
+      }
+    }
+  }
+
+  .btn.btn-white {
+    .btn-white(#444, #CCC , #EBEBEB);
+  }
+  .btn-white.btn-default {
+    .btn-white(darken(@btn-default-hover, 4%), @btn-default , lighten(@btn-default, 23%));
+  }
+  .btn-white.btn-primary {
+    .btn-white(desaturate(@btn-primary , 30%), desaturate(lighten(@btn-primary , 15%), 15%) , desaturate(lighten(@btn-primary , 42%), 6%));
+  }
+  .btn-white.btn-success {
+    .btn-white(desaturate(darken(@btn-success , 4%) , 8%), desaturate(lighten(@btn-success , 10%), 2%) , desaturate(lighten(@btn-success , 33%), 1%));
+  }
+  .btn-white.btn-danger {
+    .btn-white(desaturate(lighten(@btn-danger, 5%) , 30%), desaturate(lighten(@btn-danger , 18%), 18%) , desaturate(lighten(@btn-danger , 42%), 7%));
+  }
+  .btn-white.btn-warning {
+    .btn-white(desaturate(darken(@btn-warning , 6%), 36%), desaturate(lighten(@btn-warning , 3%), 30%) , desaturate(lighten(@btn-warning , 30%), 10%));
+  }
+  .btn-white.btn-info {
+    .btn-white(desaturate(darken(@btn-info, 6%) , 25%), desaturate(lighten(@btn-info , 5%), 15%) , desaturate(lighten(@btn-info , 30%), 6%));
+  }
+
+}
+.enable_white_buttons();
